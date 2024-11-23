@@ -15,5 +15,8 @@ Esta aplicación permite la creación de notas, su almacenamiento persistente y 
 - Base de datos: Este proyecto utiliza SQLite como sistema de gestión de base de datos relacional de manera local.
   - [Más Información](https://www.sqlite.org/index.html)
 
+## Cómo generar un ejecutable
+Para generar un archivo ejecutable para la aplicación se utilizó la herramienta **nicegui-pack**.
+    - [Más Información](https://nicegui.io/documentation/section_configuration_deployment#package_for_installation)
 
 
