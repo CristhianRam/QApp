@@ -1,5 +1,5 @@
 # QApp
-Proyecto desarrollado para la asignatura "Procesamiento de Lenguaje Natural" de la Licenciatura en Ciencias de la Computación. 
+Proyecto desarrollado para la asignatura "Procesamiento de Lenguaje Natural" de la Licenciatura en Ciencias de la Computación por parte del equipo TreeCiclo. 
 
 QApp es un asistente de Estudio que hace uso de un modelo de Question Answering para responder a tus preguntas dado un conjunto de notas disponibles.
 
