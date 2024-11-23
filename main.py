@@ -6,17 +6,25 @@ import os
 from haystack import Document
 from haystack.components.readers import ExtractiveReader
 import re
+import sys
 
+    
 # Cargar Componentes del modelo
-docs = [] # Lista de documentos
-reader = ExtractiveReader(model="deepset/tinyroberta-squad2") # Modelo
+docs = [] # Lista de documentos a los que tendrá acceso el modelo
+reader = ExtractiveReader(model="deepset/roberta-base-squad2") # Modelo
 reader.warm_up() # Activar el modelo
-
 # Conectarse a la base de datos de notas (se crea si no existe)
-script_dir = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(script_dir, 'notes.db')
+if getattr(sys, 'frozen', False):
+    # Estamos en un ejecutable
+    app_dir = sys._MEIPASS
+else:
+    # Estamos en un entorno normal
+    app_dir = os.path.dirname(os.path.abspath(__file__))
+
+db_path = os.path.join(app_dir, 'db\\notes.db')
 conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
+
 # Crear tabla si no existe
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS notas (
@@ -41,7 +49,6 @@ df = pd.DataFrame(data={
                     'Título': [n[1] for n in notas],
                     'Contenido': [n[2] for n in notas],
                 }) # llenado del dataframe
-
 # Añadimos a la lista de documentos los objetos Document basados en las notas
 for n in notas:
     docs.append(Document(id=n[0], content=n[2], meta={'titulo':n[1]}))
@@ -71,9 +78,6 @@ def main_page():
     with ui.footer(value=False).classes('flex justify-between items-center') as footer:
         ui.label('Procesamiento de Lenguaje Natural: Proyecto Final\n').classes('text-left')
         ui.label('Equipo TreeCiclo 🫡').classes('text-right')
-    # Boton para desplegar el footer
-    with ui.page_sticky(position='bottom-right', x_offset=20, y_offset=20):
-        ui.button(on_click=footer.toggle, icon='contact_support').props('fab')
 
     # Declaracion de contenido de las diferentes pestañas
     with ui.tab_panels(tabs, value='Notas').classes('w-full'):
@@ -118,6 +122,7 @@ def main_page():
                     </q-td>
                 </q-tr>
             ''')
+            
 
         # --- PESTAÑA DE NUEVA NOTA ---
         with ui.tab_panel('Nueva Nota'):
@@ -165,6 +170,12 @@ def main_page():
 
         # --- VENTANA DEL ASISTENTE --
         with ui.tab_panel('Asistente').classes('flex flex-col justify-end h-full p-4'):
+            """Funcion que limpia los resultados"""
+            def limpiar_labels():
+                label_respuesta.set_text("")
+                label_ID.set_text(f"ID del documento: {""}")
+                label_titulo.set_text(f"Titulo del documento: {""}")
+
             """ Funcion que obtiene los resultados del modelo dada la pregunta
             y despliega los resultados en la app"""
             def send():
@@ -188,15 +199,15 @@ def main_page():
                         label_ID.set_text(f"ID del documento: {id_doc}")
                         label_titulo.set_text(f"Titulo del documento: {titulo_doc}")
                     else:
+                        limpiar_labels()
                         label_respuesta.set_text("No hay información disponible en las notas.")
+
                 except:
+                    limpiar_labels()
                     label_respuesta.set_text("Respuesta no disponible.") # En caso de error, desplegar este texto
 
-            """Funcion que limpia los resultados"""
-            def limpiar_labels():
-                label_respuesta.set_text("")
-                label_ID.set_text(f"ID del documento: {""}")
-                label_titulo.set_text(f"Titulo del documento: {""}")
+
+            
             
             # Elementos de la pestaña
             ui.markdown('#### Asistente de estudio') # Titulo de la pestaña
@@ -218,6 +229,8 @@ def main_page():
             ui.button("Limpiar resultados", on_click=limpiar_labels)
             ui.separator()
 
+    # Boton para desplegar el footer
+    with ui.page_sticky(position='bottom-right', x_offset=20, y_offset=20):
+        ui.button(on_click=footer.toggle, icon='contact_support').props('fab')
 
-    
 ui.run(native=True, reload=False, frameless=True, port=native.find_open_port())
