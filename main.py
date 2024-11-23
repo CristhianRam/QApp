@@ -13,15 +13,16 @@ import sys
 docs = [] # Lista de documentos a los que tendrá acceso el modelo
 reader = ExtractiveReader(model="deepset/roberta-base-squad2") # Modelo
 reader.warm_up() # Activar el modelo
-# Conectarse a la base de datos de notas (se crea si no existe)
-if getattr(sys, 'frozen', False):
-    # Estamos en un ejecutable
-    app_dir = sys._MEIPASS
-else:
-    # Estamos en un entorno normal
-    app_dir = os.path.dirname(os.path.abspath(__file__))
 
-db_path = os.path.join(app_dir, 'notes.db')
+# Conectarse a la base de datos de notas (se crea si no existe)
+appdata_path = os.environ.get('APPDATA') # Obtener la ruta de AppData\Roaming
+folder_name = 'QApp'  # Nombre de la carpeta
+folder_path = os.path.join(appdata_path, folder_name) # Path completo
+
+if not os.path.exists(folder_path):
+    os.makedirs(folder_path)  # Crear la carpeta si no existe
+
+db_path = os.path.join(folder_path, 'notes.db')
 conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 
