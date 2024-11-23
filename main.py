@@ -21,7 +21,7 @@ else:
     # Estamos en un entorno normal
     app_dir = os.path.dirname(os.path.abspath(__file__))
 
-db_path = os.path.join(app_dir, 'db\\notes.db')
+db_path = os.path.join(app_dir, 'notes.db')
 conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 
