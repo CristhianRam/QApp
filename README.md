@@ -11,7 +11,7 @@ Esta aplicación permite la creación de notas, su almacenamiento persistente y 
 - Framework NiceGUI en Python para el desarrollo de la interfaz gráfica basada en la web.
   - [Más Información](https://nicegui.io/)
 
-- Modelo **tinyroberta-squad2**: Versión destilada del modelo roberta-base para Extractive QA en idioma Inglés. Implementado haciendo uso de Haystack, un framework de orquestación para IA que permite construir aplicaciones de LLM listas para desplegar.
+- Modelo **deepset/roberta-base-squad2**: este es el modelo *roberta-base* entrenado específicamente para Extractive QA en idioma Inglés. Implementado haciendo uso de Haystack, un framework de orquestación para IA que permite construir aplicaciones de LLM listas para desplegar.
   - [Más Información](https://huggingface.co/deepset/tinyroberta-squad2)
  
 - Base de datos: Este proyecto utiliza SQLite como sistema de gestión de base de datos relacional de manera local.
