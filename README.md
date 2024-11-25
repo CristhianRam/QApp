@@ -5,6 +5,8 @@ QApp es un asistente de Estudio que hace uso de un modelo de Question Answering 
 
 Esta aplicación permite la creación de notas, su almacenamiento persistente y como punto clave permite la ejecución de un modelo de Question Answering para hacer uso de un sistema de resolución de dudas de acuerdo a los contenidos recabados a lo largo de las notas.
 
+[Descarga el ejecutable](https://alumnosuady-my.sharepoint.com/:u:/g/personal/a19201757_alumnos_uady_mx/EUZw4fMQ-J1PhN62DnURXRMBV2D3rrAcmdaWRtGaIYC5YQ?e=tGHpM6)
+
 **NOTA:** El modelo utilizado solo es compatible con el **idioma inglés**, tanto para las notas como para las preguntas a responder.
 
 ## Tecnologías utilizadas
